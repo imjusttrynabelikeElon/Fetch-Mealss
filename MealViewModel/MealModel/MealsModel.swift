@@ -14,6 +14,7 @@ import SwiftUI
 struct Meal: Identifiable, Codable {
     var idMeal: String
     let strMeal: String
+    let strMealThumb: String
     
     var id: String {
         return idMeal

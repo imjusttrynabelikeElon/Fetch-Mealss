@@ -48,7 +48,7 @@ class MealsViewModel: ObservableObject {
 
 
     func fetchMealDetails(for meals: [Meal]) {
-        var mealDetailPublishers: [AnyPublisher<Meal?, Never>] = []
+        var mealDetailPublishers: [AnyPublisher<(Meal?, String?), Never>] = []
 
         for meal in meals {
             let mealID = meal.id
@@ -63,9 +63,9 @@ class MealsViewModel: ObservableObject {
                 .map(\.data)
                 .decode(type: MealsResponse.self, decoder: JSONDecoder())
                 .map { response in
-                    return response.meals.first
+                    return (response.meals.first, meal.strMealThumb)
                 }
-                .replaceError(with: nil)
+                .replaceError(with: (nil, nil))
                 .eraseToAnyPublisher()
 
             mealDetailPublishers.append(mealDetailPublisher)
@@ -76,10 +76,17 @@ class MealsViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { mealDetails in
                 print("Meal details fetched: \(mealDetails.count)")
-                // Handle the array of meal details here
-                print(mealDetails)
+
+            
+                for (meal, strMealThumb) in mealDetails {
+                    print("Meal Name: \(meal?.strMeal ?? "Unknown")")
+                    print("Meal Thumbnail URL: \(strMealThumb ?? "Unknown")")
+
+                  
+                }
             }
             .store(in: &cancellables)
     }
+
     
 }
