@@ -13,6 +13,7 @@ import Alamofire
 class MealsViewModel: ObservableObject {
     @Published var meals: [Meal] = [] //  array to store meals
     @Published var selectedMeal: MealDetail?
+    @Published var mealDetail: MealDetail? // Property to hold the fetched meal detail
     
     private var cancellables: Set<AnyCancellable> = []
     
@@ -42,26 +43,24 @@ class MealsViewModel: ObservableObject {
         struct MealDetailResponse: Decodable {
             let meals: [MealDetail]
         }
+        
+        
 
         AF.request(mealURL).responseDecodable(of: MealDetailResponse.self) { response in
-            switch response.result {
-            case .success(let mealDetailResponse):
-                if let mealDetail = mealDetailResponse.meals.first {
-                    //  im Printing the details from MealDetail
-                    print("Instructions: \(mealDetail.strInstructions)")
-                    if let ingredient1 = mealDetail.strIngredient1 {
-                        print("Ingredient 1: \(ingredient1)")
-                    } else {
-                        print("Ingredient 1 not available")
-                    }
-            
-                } else {
-                    print("Meal detail not found in the response")
-                }
-            case .failure(let error):
-                print("Error fetching meal details: \(error)")
-            }
-        }
-    }
+                   switch response.result {
+                   case .success(let mealDetailResponse):
+                       if let mealDetail = mealDetailResponse.meals.first {
+                           self.mealDetail = mealDetail // Store the fetched meal detail
+                       } else {
+                           print("Meal detail not found in the response")
+                       }
+                   case .failure(let error):
+                       print("Error fetching meal details: \(error)")
+                   }
+               }
+           }
 
+    
+    
+    
 }
