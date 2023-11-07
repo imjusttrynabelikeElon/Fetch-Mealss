@@ -6,6 +6,7 @@
 //
 //
 
+
 import Foundation
 import Combine
 import SwiftUI
@@ -46,47 +47,6 @@ class MealsViewModel: ObservableObject {
     }
 
 
-
-    func fetchMealDetails(for meals: [Meal]) {
-        var mealDetailPublishers: [AnyPublisher<(Meal?, String?), Never>] = []
-
-        for meal in meals {
-            let mealID = meal.id
-            let url = URL(string: "https://www.themealdb.com/api/json/v1/1/lookup.php?i=\(String(describing: mealID))")
-
-            guard let mealURL = url else {
-                print("Invalid URL for meal ID: \(mealID)")
-                continue
-            }
-
-            let mealDetailPublisher = URLSession.shared.dataTaskPublisher(for: mealURL)
-                .map(\.data)
-                .decode(type: MealsResponse.self, decoder: JSONDecoder())
-                .map { response in
-                    return (response.meals.first, meal.strMealThumb)
-                }
-                .replaceError(with: (nil, nil))
-                .eraseToAnyPublisher()
-
-            mealDetailPublishers.append(mealDetailPublisher)
-        }
-
-        Publishers.MergeMany(mealDetailPublishers)
-            .collect()
-            .receive(on: DispatchQueue.main)
-            .sink { mealDetails in
-                print("Meal details fetched: \(mealDetails.count)")
-
-            
-                for (meal, strMealThumb) in mealDetails {
-                    print("Meal Name: \(meal?.strMeal ?? "Unknown")")
-                    print("Meal Thumbnail URL: \(strMealThumb ?? "Unknown")")
-
-                  
-                }
-            }
-            .store(in: &cancellables)
-    }
 
     
 }
