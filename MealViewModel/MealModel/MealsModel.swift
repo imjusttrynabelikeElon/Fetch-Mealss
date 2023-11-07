@@ -8,7 +8,7 @@
 //
 import Foundation
 import SwiftUI
-
+import Alamofire
 
 struct Meal: Identifiable, Codable {
     var idMeal: String
@@ -23,11 +23,21 @@ struct Meal: Identifiable, Codable {
    
 }
 
+
+
+
 struct MealDetail: Decodable {
-    let idMeal: String
-    let strMeal: String
-  
+    let strInstructions: String
+    let strIngredient1: String?
+    let strIngredient2: String?
+   
 }
+
+
+
+
+
+
 
 struct MealsResponse: Decodable {
     let meals: [Meal]

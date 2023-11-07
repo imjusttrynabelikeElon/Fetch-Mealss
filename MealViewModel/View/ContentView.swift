@@ -14,10 +14,10 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List(viewModel.meals, id: \.id) { meal in
-                NavigationLink(destination: MealDetailView(meal: meal)) {
+                NavigationLink(destination: MealDetailView(viewModel: viewModel, meal: meal)) {
                     HStack {
                         if let strMealThumb = meal.strMealThumb, let url = URL(string: strMealThumb) {
-                            // Display the meal thumbnail as an Image
+                          
                             AsyncImage(url: url) { phase in
                                 if let image = phase.image {
                                     image
@@ -26,7 +26,7 @@ struct ContentView: View {
                                         .frame(width: 50, height: 50)
                                         .clipShape(Circle())
                                 } else if phase.error != nil {
-                                    // Handle error if image loading fails
+                                    
                                     Text("Image Load Error")
                                 } else {
                                     // Placeholder while loading
@@ -36,7 +36,7 @@ struct ContentView: View {
                             .frame(width: 50, height: 50)
                         }
 
-                        // Display the meal name as Text
+                      
                         Text(meal.strMeal)
                         
                         
@@ -50,42 +50,30 @@ struct ContentView: View {
         }
     }
 
-    struct MealDetailView: View {
-        var meal: Meal
-
-        var body: some View {
-            VStack {
-                Text("ID: \(meal.id)")
-                Text(meal.idMeal.description)
-
-          
-                if let strMealThumb = meal.strMealThumb, let url = URL(string: strMealThumb) {
-                    // Display the meal thumbnail as an Image
-                    AsyncImage(url: url) { phase in
-                        if let image = phase.image {
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 50, height: 50)
-                                .clipShape(Circle())
-                        } else if phase.error != nil {
-                            Text("Image Load Error")
-                        } else {
-                            ProgressView()
-                        }
-                    }
-                    .frame(width: 50, height: 50)
-                } else {
-                    Text("Thumbnail not available")
-                }
-            }
-            .onAppear {
-                print("MealDetailView appeared for meal ID: \(meal.id)")
-                print(meal.strMeal)
-            }
-        }
-    }
-
  
           
+}
+
+
+
+struct MealDetailView: View {
+    @ObservedObject var viewModel: MealsViewModel
+    var meal: Meal
+
+    @State private var isLoading: Bool = true
+
+    var body: some View {
+        VStack {
+            Text("ID: \(meal.id)")
+            if let mealDetail = viewModel.selectedMeal {
+                Text("Instructions: \(mealDetail.strInstructions)")
+            }
+        }
+        .onAppear {
+            viewModel.fetchMealDetails(for: meal.id) // Fetch meal details when the view appears
+        }
+        .onReceive(viewModel.$selectedMeal) { selectedMeal in
+            isLoading = selectedMeal == nil
+        }
+    }
 }

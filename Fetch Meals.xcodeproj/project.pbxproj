@@ -13,6 +13,7 @@
 		C96C1E192AF97FB800794A9E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96C1E182AF97FB800794A9E /* ContentView.swift */; };
 		C96C1E1B2AF97FB900794A9E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C96C1E1A2AF97FB900794A9E /* Assets.xcassets */; };
 		C96C1E1E2AF97FB900794A9E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C96C1E1D2AF97FB900794A9E /* Preview Assets.xcassets */; };
+		C9BDB98A2AFAC46200635CAC /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = C9BDB9892AFAC46200635CAC /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9BDB98A2AFAC46200635CAC /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,6 +115,9 @@
 			dependencies = (
 			);
 			name = "Fetch Meals";
+			packageProductDependencies = (
+				C9BDB9892AFAC46200635CAC /* Alamofire */,
+			);
 			productName = "Fetch Meals";
 			productReference = C96C1E132AF97FB800794A9E /* Fetch Meals.app */;
 			productType = "com.apple.product-type.application";
@@ -141,6 +146,9 @@
 				Base,
 			);
 			mainGroup = C96C1E0A2AF97FB800794A9E;
+			packageReferences = (
+				C9BDB9882AFAC46200635CAC /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = C96C1E142AF97FB800794A9E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -371,6 +379,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C9BDB9882AFAC46200635CAC /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C9BDB9892AFAC46200635CAC /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C9BDB9882AFAC46200635CAC /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C96C1E0B2AF97FB800794A9E /* Project object */;
 }
