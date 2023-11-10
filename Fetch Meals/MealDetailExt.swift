@@ -10,8 +10,12 @@ import Foundation
 import SwiftUI
 
 
-
+/// An extension on `MealDetail` providing a method to retrieve an ingredient at a specific index.
 extension MealDetail {
+    /// Retrieves the ingredient at the specified index.
+    ///
+    /// - Parameter index: The index of the ingredient to retrieve (1-based).
+    /// - Returns: The ingredient at the specified index, or `nil` if the index is out of bounds.
     func ingredient(at index: Int) -> String? {
         switch index {
         case 1:
@@ -59,4 +63,3 @@ extension MealDetail {
         }
     }
 }
-

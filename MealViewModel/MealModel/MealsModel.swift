@@ -8,28 +8,38 @@
 //
 //
 
+
+
 import Foundation
 import SwiftUI
-import Alamofire
 
+
+
+
+
+/// Represents a meal item.
 struct Meal: Identifiable, Codable {
+    /// The unique identifier for the meal.
     var idMeal: String
+    
+    /// The name of the meal.
     let strMeal: String
+    
+    /// The URL of the thumbnail image for the meal.
     let strMealThumb: String
-  
-
+    
+    /// The computed property representing the identifier.
     var id: String {
         return idMeal
     }
-
-   
 }
 
-
-
-
+/// Represents detailed information about a meal.
 struct MealDetail: Decodable {
+    /// Instructions for preparing the meal.
     let strInstructions: String
+    
+    /// Ingredients for the meal.
     let strIngredient1: String?
     let strIngredient2: String?
     let strIngredient3: String?
@@ -52,12 +62,14 @@ struct MealDetail: Decodable {
     let strIngredient20: String?
 }
 
+/// Represents the response containing an array of `MealDetail` objects.
+struct MealDetailResponse: Decodable {
+    /// An array of `MealDetail` objects.
+    let meals: [MealDetail]
+}
 
-
-
-
-
-
+/// Represents the response containing an array of `Meal` objects.
 struct MealsResponse: Decodable {
+    /// An array of `Meal` objects.
     let meals: [Meal]
 }

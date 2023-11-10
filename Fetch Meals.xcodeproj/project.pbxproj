@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C90800DD2AFB42AA001A10EC /* InstructionReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90800DC2AFB42AA001A10EC /* InstructionReader.swift */; };
 		C944FD542AF9834600FFAF9A /* MealsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C944FD532AF9834600FFAF9A /* MealsModel.swift */; };
 		C944FD562AF9857000FFAF9A /* MealsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C944FD552AF9857000FFAF9A /* MealsViewModel.swift */; };
 		C954660F2AFAD1A30024332D /* MealDetailExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954660E2AFAD1A30024332D /* MealDetailExt.swift */; };
@@ -20,7 +19,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C90800DC2AFB42AA001A10EC /* InstructionReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionReader.swift; sourceTree = "<group>"; };
 		C944FD532AF9834600FFAF9A /* MealsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsModel.swift; sourceTree = "<group>"; };
 		C944FD552AF9857000FFAF9A /* MealsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsViewModel.swift; sourceTree = "<group>"; };
 		C954660E2AFAD1A30024332D /* MealDetailExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealDetailExt.swift; sourceTree = "<group>"; };
@@ -94,7 +92,6 @@
 			children = (
 				C95466102AFADD4D0024332D /* Fetch-Meals-Info.plist */,
 				C96C1E162AF97FB800794A9E /* Fetch_MealsApp.swift */,
-				C90800DC2AFB42AA001A10EC /* InstructionReader.swift */,
 				C954660E2AFAD1A30024332D /* MealDetailExt.swift */,
 				C96C1E1A2AF97FB900794A9E /* Assets.xcassets */,
 				C96C1E1C2AF97FB900794A9E /* Preview Content */,
@@ -190,7 +187,6 @@
 				C944FD542AF9834600FFAF9A /* MealsModel.swift in Sources */,
 				C954660F2AFAD1A30024332D /* MealDetailExt.swift in Sources */,
 				C944FD562AF9857000FFAF9A /* MealsViewModel.swift in Sources */,
-				C90800DD2AFB42AA001A10EC /* InstructionReader.swift in Sources */,
 				C96C1E192AF97FB800794A9E /* ContentView.swift in Sources */,
 				C96C1E172AF97FB800794A9E /* Fetch_MealsApp.swift in Sources */,
 			);

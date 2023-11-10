@@ -9,30 +9,51 @@
 
 import Foundation
 import Combine
-import Alamofire
 
+import Foundation
+import Combine
+
+/// A view model for managing meal-related data.
 class MealsViewModel: ObservableObject {
-    @Published var meals: [Meal] = [] //  array to store meals
+    /// An array of meals retrieved from the API.
+    @Published var meals: [Meal] = []
+
+    /// The selected meal for detailed view.
     @Published var selectedMeal: MealDetail?
-    @Published var mealDetail: MealDetail? // Property to hold the fetched meal detail
+
+    /// The detailed information for a specific meal.
+    @Published var mealDetail: MealDetail?
     
+    /// Set of cancellables to manage Combine subscriptions.
     private var cancellables: Set<AnyCancellable> = []
-    
-    // Method to fetch dessert meals
+
+    /// Fetches dessert meals from the API and updates the `meals` property.
+    ///
+    ///
     func fetchDessertMeals() {
         let dessertURL = URL(string: "https://www.themealdb.com/api/json/v1/1/filter.php?c=Dessert")!
-        
-        // heres alamofire to make a network request
-        AF.request(dessertURL).responseDecodable(of: MealsResponse.self) { response in
-            switch response.result {
-            case .success(let decodedData):
-                self.meals = decodedData.meals 
-            case .failure(let error):
-                print("Error fetching dessert meals: \(error)")
+
+        URLSession.shared.dataTaskPublisher(for: dessertURL)
+            .map(\.data)
+            .decode(type: MealsResponse.self, decoder: JSONDecoder())
+            .receive(on: DispatchQueue.main) // Ensure updates are on the main thread
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print("Error fetching dessert meals: \(error)")
+                }
+            } receiveValue: { [weak self] decodedData in
+                self?.meals = decodedData.meals
             }
-        }
+            .store(in: &cancellables)
     }
-    
+
+    /// Fetches detailed information for a specific meal identified by `mealID`.
+    ///
+    /// - Parameters:
+    ///   - mealID: The unique identifier of the meal.
     func fetchMealDetails(for mealID: String) {
         let mealURLString = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=\(mealID)"
         guard let mealURL = URL(string: mealURLString) else {
@@ -40,28 +61,24 @@ class MealsViewModel: ObservableObject {
             return
         }
 
-        
-        struct MealDetailResponse: Decodable {
-            let meals: [MealDetail]
-        }
-        
-        
-
-        AF.request(mealURL).responseDecodable(of: MealDetailResponse.self) { response in
-                   switch response.result {
-                   case .success(let mealDetailResponse):
-                       if let mealDetail = mealDetailResponse.meals.first {
-                           self.mealDetail = mealDetail // Store the fetched meal detail
-                       } else {
-                           print("Meal detail not found in the response")
-                       }
-                   case .failure(let error):
-                       print("Error fetching meal details: \(error)")
-                   }
-               }
-           }
-
-    
-    
-    
+        URLSession.shared.dataTaskPublisher(for: mealURL)
+            .map(\.data)
+            .decode(type: MealDetailResponse.self, decoder: JSONDecoder())
+            .receive(on: DispatchQueue.main) // Ensure updates are on the main thread
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print("Error fetching meal details: \(error)")
+                }
+            } receiveValue: { [weak self] mealDetailResponse in
+                if let mealDetail = mealDetailResponse.meals.first {
+                    self?.mealDetail = mealDetail
+                } else {
+                    print("Meal detail not found in the response")
+                }
+            }
+            .store(in: &cancellables)
+    }
 }
